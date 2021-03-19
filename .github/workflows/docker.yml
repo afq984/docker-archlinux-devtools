@@ -1,0 +1,18 @@
+on:
+  push:
+    branches:
+      - "main"
+  schedule:
+    - cron: "12 2 * * *"
+
+jobs:
+  build:
+    name: image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: docker build . --tag ghcr.io/afq984/docker-archlinux-devtools:latest
+    - run: echo $GHCR_PAT | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+      env:
+          GHCR_PAT: ${{ secrets.GHCR_PAT }}
+    - run: docker push ghcr.io/afq984/docker-archlinux-devtools:latest
