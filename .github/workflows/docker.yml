@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: docker build . --tag ghcr.io/afq984/docker-archlinux-devtools:latest
+    - run: DOCKER_BUILDKIT=1 docker build . --tag ghcr.io/afq984/docker-archlinux-devtools:latest
     - run: echo $GHCR_PAT | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
       env:
           GHCR_PAT: ${{ secrets.GHCR_PAT }}
